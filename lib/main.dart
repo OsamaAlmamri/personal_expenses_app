@@ -35,20 +35,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 't1',
-      title: 'New Shoes',
-      amount: 69.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Weekly Groceries',
-      amount: 16.53,
-      date: DateTime.now(),
-    ),
-  ];
+  final List<Transaction> _userTransactions = [];
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
@@ -63,30 +50,19 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // void _startAddNewTransaction(BuildContext ctx) {
-  //   showModalBottomSheet(
-  //     context: ctx,
-  //     builder: (_) {
-  //       return GestureDetector(
-  //         onTap: () {},
-  //         child: NewTransaction(_addNewTransaction),
-  //         behavior: HitTestBehavior.opaque,
-  //       );
-  //     },
-  //   );
-  // }
-
   void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
-        context: ctx,
-        builder: (_) {
-          return GestureDetector(
-              onTap: (){},
-              child: NewTransaction(_addNewTransaction),
-            behavior: HitTestBehavior.opaque,
-          );
-        });
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: NewTransaction(_addNewTransaction),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 elevation: 5,
               ),
             ),
-            TransactionList(_userTransactions),
+            _userTransactions.isEmpty? Column(children: [
+              Text('Not transctions add yet!'),
+              SizedBox(height: 10,),
+              Container(
+                  height: 200,
+                  child: Image.asset('assets/images/waiting.png',fit: BoxFit.cover,))
+            ],):  TransactionList(_userTransactions),
           ],
         ),
       ),
