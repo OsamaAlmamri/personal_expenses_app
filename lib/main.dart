@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './Widgets/charts.dart';
 
 import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
@@ -20,7 +21,6 @@ class MyApp extends StatelessWidget {
         //     title: TextStyle(fontFamily: 'Quicksand')
         //   );
         // )
-
       ),
       home: MyHomePage(),
     );
@@ -50,6 +50,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<Transaction>? get _rcentTranscions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
+
   void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
@@ -63,12 +69,17 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App',style: TextStyle(fontFamily: 'Quicksand',fontWeight: FontWeight.bold,fontSize: 20),),
+        title: Text(
+          'Flutter App',
+          style: TextStyle(
+              fontFamily: 'Quicksand',
+              fontWeight: FontWeight.bold,
+              fontSize: 20),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
@@ -84,18 +95,30 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               width: double.infinity,
               child: Card(
-                color: Colors.blue,
-                child: Text('CHART!'),
+
+                margin: EdgeInsets.all(20),
+                child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: Chart(_rcentTranscions!)),
                 elevation: 5,
               ),
             ),
-            _userTransactions.isEmpty? Column(children: [
-              Text('Not transctions add yet!'),
-              SizedBox(height: 10,),
-              Container(
-                  height: 200,
-                  child: Image.asset('assets/images/waiting.png',fit: BoxFit.cover,))
-            ],):  TransactionList(_userTransactions),
+            _userTransactions.isEmpty
+                ? Column(
+                    children: [
+                      Text('Not transctions add yet!'),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                          height: 200,
+                          child: Image.asset(
+                            'assets/images/waiting.png',
+                            fit: BoxFit.cover,
+                          ))
+                    ],
+                  )
+                : TransactionList(_userTransactions),
           ],
         ),
       ),
