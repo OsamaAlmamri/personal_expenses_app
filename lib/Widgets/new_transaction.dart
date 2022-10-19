@@ -26,6 +26,9 @@ class _NewTransactionState extends State<NewTransaction> {
       enteredTitle,
       enteredAmount,
     );
+
+    //to close bottom modal after add data
+    Navigator.of(context).pop();
   }
 
   @override
