@@ -11,6 +11,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter App',
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber,
+        
+      ),
       home: MyHomePage(),
     );
   }
@@ -82,7 +87,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Flutter App'),
-        backgroundColor: Colors.red,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
